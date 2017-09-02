@@ -20,5 +20,5 @@ done
 echo "By default, rice.sh will overwrite any existing files.";
 # Loader for loop - modify this if you are adding more scripts
 for index in 1 2 3
-    do ./${SCRIPT[index]}.sh
+    do ./${SCRIPT[index]}/${SCRIPT[index]}.sh
 done
