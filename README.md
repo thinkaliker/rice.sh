@@ -19,15 +19,15 @@ After installing the defaults, the script will prompt you to install additional 
 ## Default scripts
 These are the scripts that are run by default.
 
-- [rice-update](https://github.com/thinkaliker/rice.sh/rice-update) 
-- [rice-vim](https://github.com/thinkaliker/rice.sh/rice-vim)
+- [rice-update](/rice-update) 
+- [rice-vim](/rice-vim)
 
 ## Additional scripts
 
-- [rice-dev](https://github.com/thinkaliker/rice.sh/rice-dev)
+- [rice-dev](/rice-dev)
 
 ## Adding your own rice- scripts
-You can easily add your own scripts by adding it into `rice.sh`. Follow the existing array pattern, and don't forget to increment the loader for loop. [rice-example](https://github.com/thinkaliker/rice.sh/rice-example) is provided with some building blocks in order to maintain consistency. Maintain the folder naming convention of the folder having the same name as the script.
+You can easily add your own scripts by adding it into `rice.sh`. Follow the existing array pattern, and don't forget to increment the loader for loop. [rice-example](/rice-example) is provided with some building blocks in order to maintain consistency. Maintain the folder naming convention of the folder having the same name as the script.
 
 ## TODO/Wishlist
 - prompt to select certain packages to install by default (or a command-line argument)
