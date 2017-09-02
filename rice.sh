@@ -19,6 +19,7 @@ for (( i=0; i<$DEFAULTS; i++)) ; do
 done
 echo "By default, rice.sh will overwrite any existing files.";
 for (( i=0; i<$DEFAULTS; i++)) ; do
+    chmod +x ./${SCRIPT[$i]}/${SCRIPT[$i]}.sh
     ./${SCRIPT[$i]}/${SCRIPT[$i]}.sh
 done
 

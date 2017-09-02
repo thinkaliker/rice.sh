@@ -4,6 +4,8 @@ rice it up
 ## Usage
 
 - `git clone http://github.com/thinkaliker/rice.sh.git` 
+- `cd rice.sh`
+- `chmod +x ./rice.sh`
 - `./rice.sh` 
 
 ## About
