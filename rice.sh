@@ -36,6 +36,7 @@ while true ; do
         printf "Script selection: ";
         read SELECTINPUT
         if [ $SELECTINPUT -lt $ARRSIZE ]; then
+            chmod +x ./${SCRIPT[SELECTINPUT]}/${SCRIPT[SELECTINPUT]}.sh
             ./${SCRIPT[SELECTINPUT]}/${SCRIPT[SELECTINPUT]}.sh
         else
             echo "/!\ Invalid selection.";
