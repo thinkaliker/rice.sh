@@ -40,5 +40,6 @@ You can easily add your own scripts by adding it into `rice.sh`. Follow the exis
 - more configuration files
 - standalone script that auto clones this repository via `wget`
     - maybe a script that provides that as a script to you later for easy updating a la `update-rice`
+    - should revert repo using `git checkout -- *` to prevent colliding with chmod-ed files
 - script validator
 - extensibility to other distros
