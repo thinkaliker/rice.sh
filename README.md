@@ -11,7 +11,9 @@ rice it up
 ## About
 For the perfectionists. For the sysadmins. For the flashy. For the lazy.
 
-`rice.sh` is a set of fully configurable, modular scripts that can (theoretically) be run in any configuration to help stand up a new system, add quality-of-life enhancements, or make things look awesome.
+`rice.sh` is a set of fully configurable, modular scripts that can (theoretically) be run in any configuration to help stand up a new system, add quality-of-life enhancements, or to make things look awesome.
+
+Designed for Ubuntu based distros - but if you know how to port to other systems, please make a pull request!
 
 ## Executor
 All rice- scripts are run by `rice.sh`. By default, any existing files/configurations will be overwritten.
@@ -39,3 +41,4 @@ You can easily add your own scripts by adding it into `rice.sh`. Follow the exis
 - standalone script that auto clones this repository via `wget`
     - maybe a script that provides that as a script to you later for easy updating a la `update-rice`
 - script validator
+- extensibility to other distros
