@@ -8,10 +8,13 @@ echo " > installing qup to /bin";
 if [ -f /bin/qup ] ; then
     echo " qup already installed, upgrading"
     if sudo cp ./qup.sh /bin/qup ; then
-        sudo cp ./qup.sh /bin/qup
+        echo " qup successfully upgraded."
     else
-        if chmod +x ./qup.sh ; then 
-            if sudo cp ./qup.sh /bin/qup ; then
+        echo " /!\ rice-update failed to update."
+    fi
+else
+    if chmod +x ./qup.sh ; then 
+        if sudo cp ./qup.sh /bin/qup ; then
             echo " qup successfully installed."
             echo " Quick reference:"
             echo "  > run 'qup' to automatically update all currently installed packages"

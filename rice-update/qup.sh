@@ -11,4 +11,4 @@ echo -e "${GRN}[dist-upgrade packages]${NC}"
 sudo apt-get dist-upgrade -y
 echo -e "${GRN}[autoremove packages]${NC}"
 sudo apt-get autoremove -y
-echo -e "${GRN}[qup complete]${NC}"
+echo -e "${GRN}[quick update complete]${NC}"
