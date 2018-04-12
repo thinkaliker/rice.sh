@@ -18,11 +18,16 @@ for (( i=0; i<$DEFAULTS; i++)) ; do
     printf " > %s\n" "${SCRIPT[$i]}"
 done
 echo "By default, rice.sh will overwrite any existing files.";
-for (( i=0; i<$DEFAULTS; i++)) ; do
-    chmod +x ./${SCRIPT[$i]}/${SCRIPT[$i]}.sh
-    ./${SCRIPT[$i]}/${SCRIPT[$i]}.sh
-done
-
+DEFAULTCONTINUE=0
+read -p "Continue? (y/n): " DEFAULTCONTINUE
+if [ $DEFAULTCONTINUE = "y" ] || [ $DEFAULTCONTINUE = "Y" ] ; then
+    for (( i=0; i<$DEFAULTS; i++)) ; do
+        pushd ./${SCRIPT[$i]}
+        chmod +x ./${SCRIPT[$i]}.sh
+        ./${SCRIPT[$i]}.sh
+        popd
+    done
+fi
 while true ; do
     ARRSIZE=$((${#SCRIPT[@]}))
     ADDITIONALINPUT=0
@@ -36,8 +41,10 @@ while true ; do
         printf "Script selection: ";
         read SELECTINPUT
         if [ $SELECTINPUT -lt $ARRSIZE ]; then
-            chmod +x ./${SCRIPT[SELECTINPUT]}/${SCRIPT[SELECTINPUT]}.sh
-            ./${SCRIPT[SELECTINPUT]}/${SCRIPT[SELECTINPUT]}.sh
+            pushd ./${SCRIPT[SELECTINPUT]}
+            chmod +x ./${SCRIPT[SELECTINPUT]}.sh
+            ./${SCRIPT[SELECTINPUT]}.sh
+            popd
         else
             echo "/!\ Invalid selection.";
         fi
