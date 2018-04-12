@@ -1,6 +1,7 @@
 #!/bin/bash
-VERSION="0.1"
+VERSION="0.2"
 SCRIPT=("rice-vim" "rice-update" "rice-dev")
+git config core.fileMode false
 
 echo " > Welcome to          ";
 echo "      _                _     ";
