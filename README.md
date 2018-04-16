@@ -43,6 +43,16 @@ These are the scripts that are run by default.
 - [rice-dev](/rice-dev) - installs build-essentials
 - [rice.sh-tools](/rice.sh-tools) - adds rice-sh alias
 
+## Flags
+
+Short Flag | Long Flag | Description
+-----------|-----------|------------
+-d         | --default | Runs only the default scripts.
+-h         | --help    | Displays the help message.
+-i         | --info    | Displays useful system information.
+-u         | --update  | Runs 'git pull' on installed directory.
+-v         | --version | Displays rice.sh version.
+
 ## Adding your own rice- scripts
 
 You can easily add your own scripts by adding it into `rice.sh`. Follow the existing array pattern, and don't forget to increment the loader for loop. [rice-example](/rice-example) is provided with some building blocks in order to maintain consistency. Maintain the folder naming convention of the folder having the same name as the script.

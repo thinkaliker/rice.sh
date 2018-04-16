@@ -18,16 +18,21 @@ else
     ISROOT="Yes"
 fi
 
-echo "      _                _     ";
-echo " _ __(_) ___ ___   ___| |__  ";
-echo "| '__| |/ __/ _ \ / __| '_ \ ";
-echo "| |  | | (_|  __/_\__ \ | | |";
-echo "|_|  |_|\___\___(_)___/_| |_|";
-echo "                             ";
-echo "Version: $VERSION";
-echo "OS:      $FULLDISTRO";
-echo "Root:    $ISROOT"
-echo "";
+function print_fancy {
+    echo "      _                _     ";
+    echo " _ __(_) ___ ___   ___| |__  ";
+    echo "| '__| |/ __/ _ \ / __| '_ \ ";
+    echo "| |  | | (_|  __/_\__ \ | | |";
+    echo "|_|  |_|\___\___(_)___/_| |_|";
+    echo "                             ";
+}
+
+function print_glance {
+    echo "Version: $VERSION";
+    echo "OS:      $FULLDISTRO";
+    echo "Root:    $ISROOT"
+    echo "";
+}
 
 function run_defaults {
     echo "By default, rice.sh will install: ";
@@ -48,7 +53,7 @@ function run_defaults {
     fi
 }
 
-function run_all {
+function run_main {
     WHILE=0
     ARRSIZE=$((${#SCRIPT[@]}))
     while [ "$WHILE" -eq "0" ] ; do
@@ -83,22 +88,56 @@ function run_all {
     echo "Goodbye."
 }
 
-function run_main {
-    run_defaults
-    run_all
+function run_info {
+    echo "=================================";
+    echo "System Information";
+    echo "=================================";
+    uname -a
+    echo "";
+    cat /etc/*release 2>/dev/null
+    echo "";
+    git --version
+    echo "=================================";
+}
+
+function run_help {
+    echo "Usage: ./rice.sh [FLAG] or rice-sh [FLAG]";
+    echo "";
+    echo "  -d, --default       Runs only the default scripts."
+    echo "  -h, --help          Displays this help message."
+    echo "  -i, --info          Displays useful system information."
+    echo "  -u, --update        Runs 'git pull' on installed directory.";
+    echo "  -v, --version       Displays rice.sh version."
+    
 }
 
 function has_param {
     if [ $# -ne 0 ] ; then
         case "$1" in
+            "-d"|"--default")
+                print_fancy
+                print_glance
+                run_defaults
+                echo "Goodbye."
+                ;;
+            "-h"|"--help")
+                print_fancy
+                print_glance
+                run_help
+                ;;
+            "-i"|"--info")
+                run_info
+                ;;
             "-u"|"--update")
                 git pull https://github.com/thinkaliker/rice.sh.git
+                print_glance
+                ;;
+            "-v"|"--version")
+                echo "v$VERSION  `git log -1 --pretty=format:%cd`";
                 ;;
             *)
                 echo "Invalid parameter: '$1'";
-                echo "Usage: ./rice.sh [FLAG] or rice-sh [FLAG]";
-                echo "";
-                echo "  -u, --update        Runs 'git pull' on installed directory";
+                run_help
                 ;;
         esac
     fi
@@ -106,9 +145,11 @@ function has_param {
 
 #main execution
 if [ $# -lt 1 ] ; then
+    print_fancy
+    print_glance
+    run_defaults
     run_main
 else
     has_param $@
 fi
-
 popd > /dev/null 2>&1
