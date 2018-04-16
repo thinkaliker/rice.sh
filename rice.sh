@@ -97,6 +97,7 @@ function run_info {
     cat /etc/*release 2>/dev/null
     echo "";
     git --version
+    python --version
     echo "=================================";
 }
 
@@ -131,6 +132,7 @@ function has_param {
             "-u"|"--update")
                 git pull https://github.com/thinkaliker/rice.sh.git
                 print_glance
+                chmod +x ./rice.sh
                 ;;
             "-v"|"--version")
                 echo "v$VERSION  `git log -1 --pretty=format:%cd`";
