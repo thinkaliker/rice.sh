@@ -2,7 +2,6 @@
 VERSION="0.2"
 #add default scripts to this array
 DEFAULTSCRIPT=("rice-vim" "rice-update")
-SCRIPT=($(ls -d */ | cut -f1 -d'/' | grep -v 'rice-example' ))
 DISTRO=`lsb_release -is 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
 FULLDISTRO=`lsb_release -ds 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
 if [ -z ${RICEDIR} ] ; then
@@ -10,10 +9,11 @@ if [ -z ${RICEDIR} ] ; then
 else
     pushd $RICEDIR > /dev/null 2>&1
 fi
+SCRIPT=($(ls -d */ | cut -f1 -d'/' | grep -v 'rice-example' ))
 git config core.fileMode false
 ISROOT=
 if [ "$EUID" -ne 0 ] ; then
-    ISROOT="No (will prompt)"
+    ISROOT="No (should prompt)"
 else
     ISROOT="Yes"
 fi
@@ -54,6 +54,7 @@ function run_defaults {
 }
 
 function run_main {
+    pwd
     WHILE=0
     ARRSIZE=$((${#SCRIPT[@]}))
     while [ "$WHILE" -eq "0" ] ; do
