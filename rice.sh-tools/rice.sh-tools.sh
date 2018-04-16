@@ -8,6 +8,8 @@ if [ -f ~/.bashrc ] ; then
         echo "export RICEDIR=$RICEDIR" >> ~/.bashrc
         echo " Appending alias 'rice-sh' to .bashrc";
         echo "alias rice-sh='$RICEDIR/rice.sh'" >> ~/.bashrc
+        echo " Appending alias 'rice-fp' to .bashrc";
+        echo "alias rice-fp='chmod +x $RICEDIR/rice.sh'" >> ~/.bashrc
     else
         #todo - support replacement
         echo " /!\ RICEDIR already exists in .bashrc, no replacement available";

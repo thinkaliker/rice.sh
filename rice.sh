@@ -88,9 +88,14 @@ function run_main {
     echo "Goodbye."
 }
 
+function mini_version {
+    echo "v$VERSION  `git log -1 --pretty=format:%cd`";
+}
+
 function run_info {
     echo "=================================";
     echo "System Information";
+    mini_version
     echo "=================================";
     uname -a
     echo "";
@@ -109,7 +114,12 @@ function run_help {
     echo "  -i, --info          Displays useful system information."
     echo "  -u, --update        Runs 'git pull' on installed directory.";
     echo "  -v, --version       Displays rice.sh version."
-    
+}
+
+function run_update {
+    git pull https://github.com/thinkaliker/rice.sh.git
+    echo "Updated to: "
+    mini_version
 }
 
 function has_param {
@@ -130,12 +140,10 @@ function has_param {
                 run_info
                 ;;
             "-u"|"--update")
-                git pull https://github.com/thinkaliker/rice.sh.git
-                print_glance
-                chmod +x ./rice.sh
+                run_update
                 ;;
             "-v"|"--version")
-                echo "v$VERSION  `git log -1 --pretty=format:%cd`";
+                mini_version
                 ;;
             *)
                 echo "Invalid parameter: '$1'";

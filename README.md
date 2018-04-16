@@ -41,7 +41,7 @@ These are the scripts that are run by default.
 ## Additional scripts
 
 - [rice-dev](/rice-dev) - installs build-essentials
-- [rice.sh-tools](/rice.sh-tools) - adds rice-sh alias
+- [rice.sh-tools](/rice.sh-tools) - adds rice-sh aliases
 
 ## Flags
 
