@@ -1,56 +1,114 @@
 #!/bin/bash
 VERSION="0.2"
-SCRIPT=("rice-vim" "rice-update" "rice-dev")
+#add default scripts to this array
+DEFAULTSCRIPT=("rice-vim" "rice-update")
+SCRIPT=($(ls -d */ | cut -f1 -d'/' | grep -v 'rice-example' ))
+DISTRO=`lsb_release -is 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
+FULLDISTRO=`lsb_release -ds 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
+if [ -z ${RICEDIR} ] ; then
+    export RICEDIR=`pwd`
+else
+    pushd $RICEDIR > /dev/null 2>&1
+fi
 git config core.fileMode false
+ISROOT=
+if [ "$EUID" -ne 0 ] ; then
+    ISROOT="No (will prompt)"
+else
+    ISROOT="Yes"
+fi
 
-echo " > Welcome to          ";
 echo "      _                _     ";
 echo " _ __(_) ___ ___   ___| |__  ";
 echo "| '__| |/ __/ _ \ / __| '_ \ ";
 echo "| |  | | (_|  __/_\__ \ | | |";
 echo "|_|  |_|\___\___(_)___/_| |_|";
 echo "                             ";
-echo " > Version $VERSION";
-echo ""; 
-echo "By default, rice.sh will install: "
-# Default script for loop
-DEFAULTS=$((2))
-for (( i=0; i<$DEFAULTS; i++)) ; do
-    printf " > %s\n" "${SCRIPT[$i]}"
-done
-echo "By default, rice.sh will overwrite any existing files.";
-DEFAULTCONTINUE=0
-read -p "Continue? (y/n): " DEFAULTCONTINUE
-if [ $DEFAULTCONTINUE = "y" ] || [ $DEFAULTCONTINUE = "Y" ] ; then
+echo "Version: $VERSION";
+echo "OS:      $FULLDISTRO";
+echo "Root:    $ISROOT"
+echo "";
+
+function run_defaults {
+    echo "By default, rice.sh will install: ";
+    DEFAULTS=$((2))
     for (( i=0; i<$DEFAULTS; i++)) ; do
-        pushd ./${SCRIPT[$i]}
-        chmod +x ./${SCRIPT[$i]}.sh
-        ./${SCRIPT[$i]}.sh
-        popd
+        printf " > %s\n" "${DEFAULTSCRIPT[$i]}"
     done
-fi
-while true ; do
-    ARRSIZE=$((${#SCRIPT[@]}))
-    ADDITIONALINPUT=0
-    SELECTINPUT=0
-    read -p "Install additional scripts? (y/n): " ADDITIONALINPUT
-    if [ $ADDITIONALINPUT = "y" ] || [ $ADDITIONALINPUT = "Y" ] ; then
-        echo "Choose a script to run: ";
-        for (( i=0; i<$ARRSIZE; i++)) ; do
-            printf " [%u] %s\n" $i ${SCRIPT[i]};
+    echo "By default, rice.sh will back up and replace any existing files.";
+    DEFAULTCONTINUE=0
+    read -p "Continue? (y/n): " DEFAULTCONTINUE
+    if [ "$DEFAULTCONTINUE" == "y" ] || [ "$DEFAULTCONTINUE" == "Y" ] ; then
+        for (( i=0; i<$DEFAULTS; i++)) ; do
+            pushd ./${DEFAULTSCRIPT[$i]} > /dev/null 2>&1
+            chmod +x ./${DEFAULTSCRIPT[$i]}.sh
+            ./${DEFAULTSCRIPT[$i]}.sh
+            popd > /dev/null 2>&1
         done
-        printf "Script selection: ";
-        read SELECTINPUT
-        if [ $SELECTINPUT -lt $ARRSIZE ]; then
-            pushd ./${SCRIPT[SELECTINPUT]}
-            chmod +x ./${SCRIPT[SELECTINPUT]}.sh
-            ./${SCRIPT[SELECTINPUT]}.sh
-            popd
+    fi
+}
+
+function run_all {
+    WHILE=0
+    ARRSIZE=$((${#SCRIPT[@]}))
+    while [ "$WHILE" -eq "0" ] ; do
+        ADDITIONALINPUT=
+        SELECTINPUT=
+        read -p "Install additional scripts? (y/n): " ADDITIONALINPUT
+        if [ "$ADDITIONALINPUT" == "y" ] || [ "$ADDITIONALINPUT" == "Y" ] ; then
+            echo "Choose a script to run: ";
+            for (( i=0; i<$ARRSIZE; i++)) ; do
+                printf " [%u] %s\n" $i ${SCRIPT[i]};
+            done
+            echo "--------------";
+            printf " [q] quit\n";
+            printf "Script selection: ";
+            read SELECTINPUT
+            if [ "$SELECTINPUT" == "q" ] ; then
+                WHILE="1"
+            elif [ $SELECTINPUT -lt $ARRSIZE ] ; then
+                pushd ./${SCRIPT[SELECTINPUT]} > /dev/null 2>&1
+                chmod +x ./${SCRIPT[SELECTINPUT]}.sh
+                ./${SCRIPT[SELECTINPUT]}.sh $DISTRO
+                popd > /dev/null 2>&1
+            else
+                echo "/!\ Invalid selection.";
+            fi
+        elif [ "$ADDITIONALINPUT" == "n" ] || [ "$ADDITIONALINPUT" == "N" ] ; then
+            WHILE="1"
         else
             echo "/!\ Invalid selection.";
         fi
-    else
-        echo "Goodbye.";
-        exit;
+    done
+    echo "Goodbye."
+}
+
+function run_main {
+    run_defaults
+    run_all
+}
+
+function has_param {
+    if [ $# -ne 0 ] ; then
+        case "$1" in
+            "-u"|"--update")
+                git pull https://github.com/thinkaliker/rice.sh.git
+                ;;
+            *)
+                echo "Invalid parameter: '$1'";
+                echo "Usage: ./rice.sh [FLAG] or rice-sh [FLAG]";
+                echo "";
+                echo "  -u, --update        Runs 'git pull' on installed directory";
+                ;;
+        esac
     fi
-done
+}
+
+#main execution
+if [ $# -lt 1 ] ; then
+    run_main
+else
+    has_param $@
+fi
+
+popd > /dev/null 2>&1
