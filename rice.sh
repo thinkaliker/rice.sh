@@ -121,6 +121,7 @@ function run_update {
     git pull https://github.com/thinkaliker/rice.sh.git
     echo "Updated to: "
     mini_version
+    echo "/!\ Please 'chmod +x rice.sh' again (or if installed, run rice-fp).";
 }
 
 function has_param {
