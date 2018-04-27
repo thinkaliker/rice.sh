@@ -55,7 +55,7 @@ Short Flag | Long Flag | Description
 
 ## Adding your own rice- scripts
 
-You can easily add your own scripts by adding it into `rice.sh`. Follow the existing array pattern, and don't forget to increment the loader for loop. [rice-example](/rice-example) is provided with some building blocks in order to maintain consistency. Maintain the folder naming convention of the folder having the same name as the script.
+You can easily add your own scripts by adding it into `rice.sh`. Configure your defaults by modifying the array at the top of the script (note that these will be overwritten if you use the update flag). [rice-example](/rice-example) is provided with some building blocks in order to maintain consistency. Maintain the folder naming convention of the folder having the same name as the script.
 
 ## TODO/Wishlist
 
@@ -63,6 +63,6 @@ You can easily add your own scripts by adding it into `rice.sh`. Follow the exis
   - should default to backup then copy
 - more scripts
 - more configuration files
-- standalone script that auto clones this repository via `wget`
+- standalone script that auto clones this repository via `wget` (bootstrap.sh?)
 - script validator
 - extensibility to other distros

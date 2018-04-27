@@ -54,7 +54,6 @@ function run_defaults {
 }
 
 function run_main {
-    pwd
     WHILE=0
     ARRSIZE=$((${#SCRIPT[@]}))
     while [ "$WHILE" -eq "0" ] ; do
@@ -90,7 +89,7 @@ function run_main {
 }
 
 function mini_version {
-    echo "v$VERSION  `git log -1 --pretty=format:%cd`";
+    echo "rice.sh v$VERSION  `git log -1 --pretty=format:%cd`";
 }
 
 function run_info {
@@ -102,19 +101,20 @@ function run_info {
     echo "";
     cat /etc/*release 2>/dev/null
     echo "";
-    git --version
+    git --version 2> /dev/null
     python --version
+    java -version 2> /dev/null 
     echo "=================================";
 }
 
 function run_help {
     echo "Usage: ./rice.sh [FLAG] or rice-sh [FLAG]";
     echo "";
-    echo "  -d, --default       Runs only the default scripts."
-    echo "  -h, --help          Displays this help message."
-    echo "  -i, --info          Displays useful system information."
+    echo "  -d, --default       Runs only the default scripts.";
+    echo "  -h, --help          Displays this help message.";
+    echo "  -i, --info          Displays useful system information.";
     echo "  -u, --update        Runs 'git pull' on installed directory.";
-    echo "  -v, --version       Displays rice.sh version."
+    echo "  -v, --version       Displays rice.sh version.";
 }
 
 function run_update {
@@ -130,7 +130,7 @@ function has_param {
                 print_fancy
                 print_glance
                 run_defaults
-                echo "Goodbye."
+                echo "Goodbye.";
                 ;;
             "-h"|"--help")
                 print_fancy
