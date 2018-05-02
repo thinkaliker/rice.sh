@@ -2,7 +2,7 @@
 DISTRO=$1
 echo "=================================";
 echo " Ricing out: dev";
-if [ $DISTRO = "Ubuntu" ] ; then
+if [ $DISTRO == "Ubuntu" ] ; then
     echo " > installing build-essential";
     sudo apt-get update -y
     sudo apt-get install build-essential -y
