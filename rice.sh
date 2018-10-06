@@ -1,7 +1,7 @@
 #!/bin/bash
-VERSION="0.2"
+VERSION="0.3"
 #add default scripts to this array
-DEFAULTSCRIPT=("rice-vim" "rice-update")
+DEFAULTSCRIPT=("rice-dev" "rice-update")
 DISTRO=`lsb_release -is 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
 FULLDISTRO=`lsb_release -ds 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
 if [ -z ${RICEDIR} ] ; then
@@ -35,7 +35,7 @@ function print_glance {
 }
 
 function run_defaults {
-    echo "By default, rice.sh will install: ";
+    echo "By default, rice.sh will run: ";
     DEFAULTS=$((2))
     for (( i=0; i<$DEFAULTS; i++)) ; do
         printf " > %s\n" "${DEFAULTSCRIPT[$i]}"
@@ -59,18 +59,21 @@ function run_main {
     while [ "$WHILE" -eq "0" ] ; do
         ADDITIONALINPUT=
         SELECTINPUT=
-        read -p "Install additional scripts? (y/n): " ADDITIONALINPUT
+        read -p "Install additional scripts or display menu? (y/n): " ADDITIONALINPUT
         if [ "$ADDITIONALINPUT" == "y" ] || [ "$ADDITIONALINPUT" == "Y" ] ; then
             echo "Choose a script to run: ";
             for (( i=0; i<$ARRSIZE; i++)) ; do
                 printf " [%u] %s\n" $i ${SCRIPT[i]};
             done
             echo "--------------";
-            printf " [q] quit\n";
-            printf "Script selection: ";
-            read SELECTINPUT
+            echo " [h] help";
+            echo " [q] quit";
+            read -p "Script selection: " SELECTINPUT
             if [ "$SELECTINPUT" == "q" ] ; then
                 WHILE="1"
+            elif [ "$SELECTINPUT" == "h" ] ; then
+                run_help
+                while="1"
             elif [ $SELECTINPUT -lt $ARRSIZE ] ; then
                 pushd ./${SCRIPT[SELECTINPUT]} > /dev/null 2>&1
                 chmod +x ./${SCRIPT[SELECTINPUT]}.sh
@@ -88,8 +91,65 @@ function run_main {
     echo "Goodbye."
 }
 
+function run_help {
+    HELPWHILE=0
+    while [ "$HELPWHILE" -eq "0" ] ; do
+        echo "=================================";
+        echo "Help Menu"
+        echo "=================================";
+        echo " [v] view README.md for each script";
+        echo " [f] view rice.sh command line flags";
+        echo " [i] display useful system information";
+        echo " [u] update rice.sh";
+        echo "--------------";
+        echo " [q] return to main menu";
+        HELPINPUT=
+        read -p "Help selection: " HELPINPUT
+        if [ "$HELPINPUT" == "v" ] ; then
+            run_readme
+        elif [ "$HELPINPUT" == "f" ] ; then
+            run_flaghelp
+        elif [ "$HELPINPUT" == "i" ] ; then
+            run_info
+        elif [ "$HELPINPUT" == "u" ] ; then
+            run_update
+        elif [ "$HELPINPUT" == "q" ] ; then
+            HELPWHILE="1"
+        else
+            echo "/!\ Invalid selection.";
+        fi
+    done
+}
+
 function mini_version {
     echo "rice.sh v$VERSION  `git log -1 --pretty=format:%cd`";
+}
+
+function run_readme {
+    READMEWHILE=0
+    while [ "$READMEWHILE" -eq "0" ] ; do
+        READMEANOTHER=
+        echo "Choose a script to view README.md: ";
+        for (( i=0; i<$ARRSIZE; i++)) ; do
+            printf " [%u] %s\n" $i ${SCRIPT[i]};
+        done
+        READMEINPUT=
+        read -p "Script selection: " READMEINPUT
+        if [ $READMEINPUT -lt $ARRSIZE ] ; then
+            echo "Viewing: ${SCRIPT[READMEINPUT]}"
+            pushd ./${SCRIPT[READMEINPUT]} > /dev/null 2>&1
+            cat ./README.md
+            popd > /dev/null 2>&1
+        else
+            echo "/!\ Invalid selection.";
+        fi
+        echo "";
+        echo "--------------";
+        read -p "Read another README? (y/n):" READMEANOTHER
+        if [ "$READMEANOTHER" == "n" ] || [ "$READMEANOTHER" == "N" ] ; then
+            READMEWHILE="1"
+        fi
+    done
 }
 
 function run_info {
@@ -107,7 +167,7 @@ function run_info {
     echo "=================================";
 }
 
-function run_help {
+function run_flaghelp {
     echo "Usage: ./rice.sh [FLAG] or rice-sh [FLAG]";
     echo "";
     echo "  -d, --default       Runs only the default scripts.";
@@ -136,7 +196,7 @@ function has_param {
             "-h"|"--help")
                 print_fancy
                 print_glance
-                run_help
+                run_flaghelp
                 ;;
             "-i"|"--info")
                 run_info
@@ -149,7 +209,7 @@ function has_param {
                 ;;
             *)
                 echo "Invalid parameter: '$1'";
-                run_help
+                run_flaghelp
                 ;;
         esac
     fi

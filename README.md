@@ -21,7 +21,7 @@ For the perfectionists. For the sysadmins. For the flashy. For the lazy.
 
 `rice.sh` is a set of fully configurable, modular scripts that can (theoretically) be run in any configuration to help stand up a new system, add quality-of-life enhancements, or to make things look awesome.
 
-Designed for Ubuntu based distros - but if you know how to port to other systems, please make a pull request!
+Designed for Debian based distros - but if you know how to port to other systems, please make a pull request!
 
 ## Executor
 
