@@ -5,7 +5,7 @@ echo "=================================";
 echo " Ricing out: update";
 echo " Distro: $DISTRO";
 #TODO add more distro support
-if [ $DISTRO == "Debian" ] || [ $DISTRO == "Raspbian" ] || [ $DISTRO == "Ubuntu" ] ; then
+if [ "$DISTRO" == "Debian" ] || [ "$DISTRO" == "Raspbian" ] || [ "$DISTRO" == "Ubuntu" ] ; then
     echo " > installing qup to /bin";
     if [ "$EUID" -ne 0 ] ; then
         sudo echo " sudo OK";

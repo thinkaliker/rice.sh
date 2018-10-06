@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="0.3"
+VERSION="0.3.1"
 #add default scripts to this array
 DEFAULTSCRIPT=("rice-dev" "rice-update")
 DISTRO=`lsb_release -is 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
@@ -47,7 +47,7 @@ function run_defaults {
         for (( i=0; i<$DEFAULTS; i++)) ; do
             pushd ./${DEFAULTSCRIPT[$i]} > /dev/null 2>&1
             chmod +x ./${DEFAULTSCRIPT[$i]}.sh
-            ./${DEFAULTSCRIPT[$i]}.sh
+            ./${DEFAULTSCRIPT[$i]}.sh $DISTRO
             popd > /dev/null 2>&1
         done
     fi

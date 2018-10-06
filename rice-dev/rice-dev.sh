@@ -3,7 +3,7 @@ DISTRO=$1
 echo "=================================";
 echo " Ricing out: dev";
 echo " Distro: $DISTRO";
-if [ $DISTRO == "Debian" ] || [ $DISTRO == "Raspbian" ]  || [ $DISTRO == "Ubuntu" ] ; then
+if [ "$DISTRO" == "Debian" ] || [ "$DISTRO" == "Raspbian" ] || [ "$DISTRO" == "Ubuntu" ] ; then
     echo " > installing build-essential";
     sudo apt-get update -y
     sudo apt-get install build-essential -y
