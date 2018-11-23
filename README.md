@@ -6,7 +6,7 @@ rice (n): Enhancements that may or may not be useful and usually flashy.
 
 ## Install
 
-- `git clone http://github.com/thinkaliker/rice.sh.git`
+- `git clone https://github.com/thinkaliker/rice.sh.git`
 - `cd rice.sh`
 - `chmod +x ./rice.sh`
 
