@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="0.4.0"
+VERSION="0.5.0"
 #add default scripts to this array
 DEFAULTSCRIPT=("rice-dev" "rice-update")
 DISTRO=`lsb_release -is 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
@@ -162,7 +162,8 @@ function run_info {
     cat /etc/*release 2>/dev/null
     echo "";
     git --version 2> /dev/null
-    python --version
+    python --version 2> /dev/null
+    pip --version 2> /dev/null
     java -version 2> /dev/null 
     echo "=================================";
 }
