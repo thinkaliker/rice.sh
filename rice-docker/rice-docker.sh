@@ -33,14 +33,14 @@ function install_docker {
         fi
 
         echo " > Executing install-docker.sh";
-        if ./install_docker.sh ; then
+        if ./install-docker.sh ; then
         	echo " > install-docker.sh complete";
         else 
         	echo " /!\ install-docker.sh failed to run correctly";
         fi
 
         echo " > Cleaning up install-docker.sh";
-        if rm -f ./install_docker.sh ; then
+        if rm -f ./install-docker.sh ; then
         	echo " > install-docker.sh cleaned up";
         else
         	echo " /!\ Failed to remove install-docker.sh";
