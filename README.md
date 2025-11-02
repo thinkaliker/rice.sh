@@ -36,12 +36,13 @@ You can update rice.sh by running `rice.sh -u` or `rice.sh --update`.
 These are the scripts that are run by default.
 
 - [rice-update](/rice-update) - installs a quick update script
-- [rice-vim](/rice-vim) - useful vim settings
+- [rice.sh-tools](/rice.sh-tools) - adds rice-sh aliases
 
 ## Additional scripts
 
 - [rice-dev](/rice-dev) - installs build-essentials
-- [rice.sh-tools](/rice.sh-tools) - adds rice-sh aliases
+- [rice-vim](/rice-vim) - useful vim settings
+- [rice-docker](/rice-docker) - downloads and runs install-docker.sh automatically
 
 ## Flags
 
