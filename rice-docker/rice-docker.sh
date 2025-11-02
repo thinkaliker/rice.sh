@@ -11,40 +11,40 @@ function install_docker {
             sudo echo " > sudo OK";
         fi
 
-    	echo " > Making sure curl is installed"
+    	echo " > Making sure curl is installed";
     	if sudo apt install -y curl ; then
-    		echo " > curl installed"
+    		echo " > curl installed";
     	else
-    		echo " /!\ Something went wrong with curl installation."
+    		echo " /!\ Something went wrong with curl installation.";
     	fi
 
         echo " > Grabbing docker install script from docker.com";
         if curl -sSL https://get.docker.com/ -o install-docker.sh ; then
-        	echo " > install-docker.sh downloaded"
+        	echo " > install-docker.sh downloaded";
 
-        echo " > Making install-docker.sh executable"
+        echo " > Making install-docker.sh executable";
         if chmod +x ./install-docker.sh ; then
-        	echo " > install-docker.sh now executable"
+        	echo " > install-docker.sh now executable";
         else
-        	echo " /!\ install-docker.sh failed to change permission"
+        	echo " /!\ install-docker.sh failed to change permission";
         fi
 
-        echo " > Executing install-docker.sh"
+        echo " > Executing install-docker.sh";
         if ./install_docker.sh ; then
-        	echo " > install-docker.sh complete"
+        	echo " > install-docker.sh complete";
         else 
-        	echo " /!\ install-docker.sh failed to run correctly"
+        	echo " /!\ install-docker.sh failed to run correctly";
         fi
 
-        echo " > Cleaning up install-docker.sh"
+        echo " > Cleaning up install-docker.sh";
         if rm -f ./install_docker.sh ; then
-        	echo " > install-docker.sh cleaned up"
+        	echo " > install-docker.sh cleaned up";
         else
-        	echo " /!\ Failed to remove install-docker.sh"
+        	echo " /!\ Failed to remove install-docker.sh";
         fi
 
     else
-        echo " /!\ package manager is not currently supported"
+        echo " /!\ package manager is not currently supported";
     fi
     echo "=================================";
 }
