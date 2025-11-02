@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="0.5.0"
+VERSION="0.6.0"
 #add default scripts to this array
 DEFAULTSCRIPT=("rice-dev" "rice-update")
 DISTRO=`lsb_release -is 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
