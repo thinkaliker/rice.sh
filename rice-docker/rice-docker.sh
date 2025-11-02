@@ -21,6 +21,9 @@ function install_docker {
         echo " > Grabbing docker install script from docker.com";
         if curl -sSL https://get.docker.com/ -o install-docker.sh ; then
         	echo " > install-docker.sh downloaded";
+        else
+        	echo " > failed to download install-docker.sh";
+        fi
 
         echo " > Making install-docker.sh executable";
         if chmod +x ./install-docker.sh ; then
