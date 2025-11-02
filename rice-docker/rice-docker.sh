@@ -12,6 +12,8 @@ function install_docker {
         fi
 
         if [ -f /usr/bin/docker ] ; then
+            echo " /!\ Docker is already installed. Please remove before trying again."
+        else
             echo " > Making sure curl is installed";
             if sudo apt install -y curl ; then
                 echo " > curl installed";
@@ -46,8 +48,6 @@ function install_docker {
             else
                 echo " /!\ Failed to remove install-docker.sh";
             fi
-        else
-            echo " /!\ Docker is already installed. Please remove before trying again."
         fi
 
     else
