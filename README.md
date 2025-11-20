@@ -43,6 +43,7 @@ These are the scripts that are run by default.
 - [rice-dev](/rice-dev) - installs build-essentials
 - [rice-vim](/rice-vim) - useful vim settings
 - [rice-docker](/rice-docker) - downloads and runs install-docker.sh automatically
+- [rice-tailscale](/rice-tailscale) - downloads and runs install.sh for tailscale automatically
 
 ## Flags
 
