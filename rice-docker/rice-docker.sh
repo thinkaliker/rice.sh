@@ -48,6 +48,13 @@ function install_docker {
             else
                 echo " /!\ Failed to remove install-docker.sh";
             fi
+
+            echo " > Adding current user to docker group";
+            if sudo usermod -aG docker $USER ; then
+                echo " > $USER added to docker";
+            else
+                echo " /!\ Failed to add $USER to docker";
+            fi
         fi
 
     else
