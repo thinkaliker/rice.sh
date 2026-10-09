@@ -46,6 +46,14 @@ These are the scripts that are run by default.
 - [rice-docker](/rice-docker) - downloads and runs install-docker.sh automatically
 - [rice-tailscale](/rice-tailscale) - downloads and runs install.sh for tailscale automatically
 - [rice-node](/rice-node) - installs nvm and a chosen Node.js version
+- [rice-claude](/rice-claude) - downloads and runs install.sh for the Claude Code CLI automatically
+
+## Help scripts
+
+These are hidden from the script menu and run from the rice.sh help menu.
+
+- [rice-info](/rice-info) - displays useful system information (also `-i`)
+- [rice-readme](/rice-readme) - views the README.md for each script
 
 ## Flags
 

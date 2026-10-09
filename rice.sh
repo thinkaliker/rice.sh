@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="0.6.0"
+VERSION="0.7.0"
 #add default scripts to this array
 DEFAULTSCRIPT=("rice-base" "rice-update" "rice.sh-tools")
 DISTRO=`lsb_release -is 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
@@ -9,7 +9,7 @@ if [ -z ${RICEDIR} ] ; then
 else
     pushd $RICEDIR > /dev/null 2>&1
 fi
-SCRIPT=($(ls -d */ | cut -f1 -d'/' | grep -v -e 'rice-example' -e 'rice-source' ))
+SCRIPT=($(ls -d */ | cut -f1 -d'/' | grep -v -e 'rice-example' -e 'rice-source' -e 'rice-info' -e 'rice-readme' ))
 git config core.fileMode false
 ISROOT=
 if [ "$EUID" -ne 0 ] ; then
@@ -34,6 +34,13 @@ function print_glance {
     echo "";
 }
 
+function run_script {
+    pushd ./$1 > /dev/null 2>&1
+    chmod +x ./$1.sh
+    ./$1.sh $DISTRO
+    popd > /dev/null 2>&1
+}
+
 function run_defaults {
     echo "By default, rice.sh will run: ";
     DEFAULTS=${#DEFAULTSCRIPT[@]}
@@ -45,10 +52,7 @@ function run_defaults {
     read -p "Continue? (y/n): " DEFAULTCONTINUE
     if [ "$DEFAULTCONTINUE" == "y" ] || [ "$DEFAULTCONTINUE" == "Y" ] ; then
         for (( i=0; i<$DEFAULTS; i++)) ; do
-            pushd ./${DEFAULTSCRIPT[$i]} > /dev/null 2>&1
-            chmod +x ./${DEFAULTSCRIPT[$i]}.sh
-            ./${DEFAULTSCRIPT[$i]}.sh $DISTRO
-            popd > /dev/null 2>&1
+            run_script ${DEFAULTSCRIPT[$i]}
         done
     fi
 }
@@ -75,10 +79,7 @@ function run_main {
                 run_help
                 while="1"
             elif [ $SELECTINPUT -lt $ARRSIZE ] ; then
-                pushd ./${SCRIPT[SELECTINPUT]} > /dev/null 2>&1
-                chmod +x ./${SCRIPT[SELECTINPUT]}.sh
-                ./${SCRIPT[SELECTINPUT]}.sh $DISTRO
-                popd > /dev/null 2>&1
+                run_script ${SCRIPT[SELECTINPUT]}
             else
                 echo "/!\ Invalid selection.";
             fi
@@ -106,11 +107,11 @@ function run_help {
         HELPINPUT=
         read -p "Help selection: " HELPINPUT
         if [ "$HELPINPUT" == "v" ] ; then
-            run_readme
+            run_script rice-readme
         elif [ "$HELPINPUT" == "f" ] ; then
             run_flaghelp
         elif [ "$HELPINPUT" == "i" ] ; then
-            run_info
+            run_script rice-info
         elif [ "$HELPINPUT" == "u" ] ; then
             run_update
         elif [ "$HELPINPUT" == "q" ] ; then
@@ -123,49 +124,6 @@ function run_help {
 
 function mini_version {
     echo "rice.sh v$VERSION  `git log -1 --pretty=format:%cd`";
-}
-
-function run_readme {
-    READMEWHILE=0
-    while [ "$READMEWHILE" -eq "0" ] ; do
-        READMEANOTHER=
-        echo "Choose a script to view README.md: ";
-        for (( i=0; i<$ARRSIZE; i++)) ; do
-            printf " [%u] %s\n" $i ${SCRIPT[i]};
-        done
-        READMEINPUT=
-        read -p "Script selection: " READMEINPUT
-        if [ $READMEINPUT -lt $ARRSIZE ] ; then
-            echo "Viewing: ${SCRIPT[READMEINPUT]}"
-            pushd ./${SCRIPT[READMEINPUT]} > /dev/null 2>&1
-            cat ./README.md
-            popd > /dev/null 2>&1
-        else
-            echo "/!\ Invalid selection.";
-        fi
-        echo "";
-        echo "--------------";
-        read -p "Read another README? (y/n):" READMEANOTHER
-        if [ "$READMEANOTHER" == "n" ] || [ "$READMEANOTHER" == "N" ] ; then
-            READMEWHILE="1"
-        fi
-    done
-}
-
-function run_info {
-    echo "=================================";
-    echo "System Information";
-    mini_version
-    echo "=================================";
-    uname -a
-    echo "";
-    cat /etc/*release 2>/dev/null
-    echo "";
-    git --version 2> /dev/null
-    python --version 2> /dev/null
-    pip --version 2> /dev/null
-    java -version 2> /dev/null 
-    echo "=================================";
 }
 
 function run_flaghelp {
@@ -200,7 +158,7 @@ function has_param {
                 run_flaghelp
                 ;;
             "-i"|"--info")
-                run_info
+                run_script rice-info
                 ;;
             "-u"|"--update")
                 run_update
