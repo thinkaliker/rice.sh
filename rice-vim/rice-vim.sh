@@ -1,6 +1,8 @@
 #!/bin/bash
-echo "=================================";
-echo " Ricing out: vim";
+
+DISTRO=$1
+source "$(dirname "${BASH_SOURCE[0]}")/../rice-source/rice-source.sh"
+rice_header "vim"
 printf " > Copying .vimrc to %s\n" "$HOME";
 if [ -f ~/.vimrc ] ; then
     echo " .vimrc already installed, upgrading"
@@ -17,4 +19,4 @@ else
         echo " /!\ vim-rice failed to install, try again";
     fi
 fi
-echo "=================================";
+rice_footer

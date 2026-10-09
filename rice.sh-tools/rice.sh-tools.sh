@@ -1,6 +1,8 @@
 #!/bin/bash
-echo "=================================";
-echo " Ricing out: rice.sh";
+
+DISTRO=$1
+source "$(dirname "${BASH_SOURCE[0]}")/../rice-source/rice-source.sh"
+rice_header "rice.sh"
 if [ -f ~/.bashrc ] ; then
     BASHCHECK=`cat ~/.bashrc | grep RICEDIR`
     if [ -z "$BASHCHECK" ] ; then
@@ -16,4 +18,4 @@ if [ -f ~/.bashrc ] ; then
     fi
 fi
 
-echo "=================================";
+rice_footer

@@ -35,6 +35,7 @@ You can update rice.sh by running `rice.sh -u` or `rice.sh --update`.
 
 These are the scripts that are run by default.
 
+- [rice-base](/rice-base) - installs sudo, net-tools, and curl (runs first)
 - [rice-update](/rice-update) - installs a quick update script
 - [rice.sh-tools](/rice.sh-tools) - adds rice-sh aliases
 
@@ -44,6 +45,7 @@ These are the scripts that are run by default.
 - [rice-vim](/rice-vim) - useful vim settings
 - [rice-docker](/rice-docker) - downloads and runs install-docker.sh automatically
 - [rice-tailscale](/rice-tailscale) - downloads and runs install.sh for tailscale automatically
+- [rice-node](/rice-node) - installs nvm and a chosen Node.js version
 
 ## Flags
 
@@ -57,7 +59,7 @@ Short Flag | Long Flag | Description
 
 ## Adding your own rice- scripts
 
-You can easily add your own scripts by adding it into `rice.sh`. Configure your defaults by modifying the array at the top of the script (note that these will be overwritten if you use the update flag). [rice-example](/rice-example) is provided with some building blocks in order to maintain consistency. Maintain the folder naming convention of the folder having the same name as the script.
+You can easily add your own scripts by adding it into `rice.sh`. Configure your defaults by modifying the array at the top of the script (note that these will be overwritten if you use the update flag). [rice-example](/rice-example) is provided with some building blocks in order to maintain consistency. Shared functions (banners, sudo prompt, package manager detection, `ensure_curl`) live in [rice-source](/rice-source); source it at the top of your script. Maintain the folder naming convention of the folder having the same name as the script.
 
 ## TODO/Wishlist
 

@@ -1,16 +1,13 @@
 #!/bin/bash
 
 DISTRO=$1
-echo "=================================";
-echo " Ricing out: update";
-echo " Distro: $DISTRO";
+source "$(dirname "${BASH_SOURCE[0]}")/../rice-source/rice-source.sh"
+rice_header "update"
 
 function install_qup {
     if [ "$PKGMGR_SUPPORTED" == "APT" ] ; then
         echo " > installing qup to /bin";
-        if [ "$EUID" -ne 0 ] ; then
-            sudo echo " > sudo OK";
-        fi
+        check_sudo
 
         if [ -f /bin/qup ] ; then
             echo " > qup already installed, upgrading";
@@ -40,24 +37,6 @@ function install_qup {
     else
         echo " /!\ package manager is not currently supported"
     fi
-    echo "=================================";
 }
 
-hash apt 2> /dev/null
-if [ $? == "0" ] ; then
-    echo " Package manager: apt"
-    PKGMGR_SUPPORTED="APT"
-    install_qup
-    exit
-fi
-
-hash yum 2> /dev/null
-if [ $? == "0" ] ; then
-    echo " Package manager: yum"
-    PKGMGR_SUPPORTED="YUM"
-    install_qup
-    exit
-fi
-echo " /!\ package manager currently not supported by rice-update.";
-
-echo "=================================";
+run_with_pkgmgr install_qup "rice-update"

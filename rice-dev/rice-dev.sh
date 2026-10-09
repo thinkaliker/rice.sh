@@ -1,8 +1,7 @@
 #!/bin/bash
 DISTRO=$1
-echo "=================================";
-echo " Ricing out: dev";
-echo " Distro: $DISTRO";
+source "$(dirname "${BASH_SOURCE[0]}")/../rice-source/rice-source.sh"
+rice_header "dev"
 if [ "$DISTRO" == "Debian" ] || [ "$DISTRO" == "Raspbian" ] || [ "$DISTRO" == "Ubuntu" ] || [ "$DISTRO" == "Kali" ] ; then
     echo " > installing build-essential";
     sudo apt update -y
@@ -16,4 +15,4 @@ if [ "$DISTRO" == "Debian" ] || [ "$DISTRO" == "Raspbian" ] || [ "$DISTRO" == "U
 else
     echo " /!\ $DISTRO currently not supported by rice-dev.";
 fi
-echo "=================================";
+rice_footer

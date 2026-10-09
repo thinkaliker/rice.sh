@@ -1,24 +1,18 @@
 #!/bin/bash
 
 DISTRO=$1
-echo "=================================";
-echo " Ricing out: docker";
-echo " Distro: $DISTRO";
+source "$(dirname "${BASH_SOURCE[0]}")/../rice-source/rice-source.sh"
+rice_header "docker"
 
 function install_docker {
     if [ "$PKGMGR_SUPPORTED" == "APT" ] ; then
-        if [ "$EUID" -ne 0 ] ; then
-            sudo echo " > sudo OK";
-        fi
+        check_sudo
 
         if [ -f /usr/bin/docker ] ; then
             echo " /!\ Docker is already installed. Please remove before trying again."
         else
-            echo " > Making sure curl is installed";
-            if sudo apt install -y curl ; then
-                echo " > curl installed";
-            else
-                echo " /!\ Something went wrong with curl installation.";
+            if ! ensure_curl ; then
+                return
             fi
 
             echo " > Grabbing docker install script from docker.com";
@@ -60,24 +54,6 @@ function install_docker {
     else
         echo " /!\ package manager is not currently supported";
     fi
-    echo "=================================";
 }
 
-hash apt 2> /dev/null
-if [ $? == "0" ] ; then
-    echo " Package manager: apt"
-    PKGMGR_SUPPORTED="APT"
-    install_docker
-    exit
-fi
-
-hash yum 2> /dev/null
-if [ $? == "0" ] ; then
-    echo " Package manager: yum"
-    PKGMGR_SUPPORTED="YUM"
-    install_docker
-    exit
-fi
-echo " /!\ package manager currently not supported by rice-update.";
-
-echo "=================================";
+run_with_pkgmgr install_docker "rice-docker"

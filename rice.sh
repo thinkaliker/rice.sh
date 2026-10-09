@@ -1,7 +1,7 @@
 #!/bin/bash
 VERSION="0.6.0"
 #add default scripts to this array
-DEFAULTSCRIPT=("rice-update" "rice.sh-tools")
+DEFAULTSCRIPT=("rice-base" "rice-update" "rice.sh-tools")
 DISTRO=`lsb_release -is 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
 FULLDISTRO=`lsb_release -ds 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 || uname -s || uname -om`
 if [ -z ${RICEDIR} ] ; then
@@ -9,7 +9,7 @@ if [ -z ${RICEDIR} ] ; then
 else
     pushd $RICEDIR > /dev/null 2>&1
 fi
-SCRIPT=($(ls -d */ | cut -f1 -d'/' | grep -v 'rice-example' ))
+SCRIPT=($(ls -d */ | cut -f1 -d'/' | grep -v -e 'rice-example' -e 'rice-source' ))
 git config core.fileMode false
 ISROOT=
 if [ "$EUID" -ne 0 ] ; then
@@ -36,7 +36,7 @@ function print_glance {
 
 function run_defaults {
     echo "By default, rice.sh will run: ";
-    DEFAULTS=$((2))
+    DEFAULTS=${#DEFAULTSCRIPT[@]}
     for (( i=0; i<$DEFAULTS; i++)) ; do
         printf " > %s\n" "${DEFAULTSCRIPT[$i]}"
     done
